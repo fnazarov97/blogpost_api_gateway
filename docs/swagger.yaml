@@ -138,38 +138,7 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 paths:
-  /v1/login:
-    post:
-      consumes:
-      - application/json
-      description: Login
-      parameters:
-      - description: Login body
-        in: body
-        name: login
-        required: true
-        schema:
-          $ref: '#/definitions/models.LoginModel'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            allOf:
-            - $ref: '#/definitions/models.JSONResponse'
-            - properties:
-                data:
-                  $ref: '#/definitions/models.TokenResponse'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.JSONErrorResponse'
-      summary: Login
-      tags:
-      - auth
-  /v2/article:
+  /v1/article:
     get:
       consumes:
       - application/json
@@ -278,7 +247,7 @@ paths:
       summary: update article
       tags:
       - articles
-  /v2/article/{id}:
+  /v1/article/{id}:
     delete:
       consumes:
       - application/json
@@ -344,7 +313,7 @@ paths:
       summary: get article by id
       tags:
       - articles
-  /v2/author:
+  /v1/author:
     get:
       consumes:
       - application/json
@@ -451,7 +420,7 @@ paths:
       summary: update author
       tags:
       - authors
-  /v2/author/{id}:
+  /v1/author/{id}:
     delete:
       consumes:
       - application/json
@@ -518,4 +487,35 @@ paths:
       summary: get author by id
       tags:
       - authors
+  /v1/login:
+    post:
+      consumes:
+      - application/json
+      description: Login
+      parameters:
+      - description: Login body
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/models.LoginModel'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.JSONResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.TokenResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.JSONErrorResponse'
+      summary: Login
+      tags:
+      - auth
 swagger: "2.0"
