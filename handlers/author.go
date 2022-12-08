@@ -15,9 +15,10 @@ import (
 // @Tags        authors
 // @Accept      json
 // @Produce     json
-// @Param       author body     models.CreateAuthorModel true "author body"
-// @Success     201    {object} models.JSONResponse{data=models.Author}
-// @Failure     400    {object} models.JSONErrorResponse
+// @Param       author        body     models.CreateAuthorModel true  "author body"
+// @Param       Authorization header   string                   false "Authorization"
+// @Success     201           {object} models.JSONResponse{data=models.Author}
+// @Failure     400           {object} models.JSONErrorResponse
 // @Router      /v2/author [post]
 func (h Handler) CreateAuthor(c *gin.Context) {
 	var body models.CreateAuthorModel
@@ -49,7 +50,8 @@ func (h Handler) CreateAuthor(c *gin.Context) {
 // @Description get an author by id
 // @Tags        authors
 // @Accept      json
-// @Param       id path string true "Author ID"
+// @Param       id            path   string true  "Author ID"
+// @Param       Authorization header string false "Authorization"
 // @Produce     json
 // @Success     200 {object} models.JSONResponse{data=models.Author}
 // @Failure     400 {object} models.JSONErrorResponse
@@ -80,10 +82,11 @@ func (h Handler) GetAuthorByID(c *gin.Context) {
 // @Tags        authors
 // @Accept      json
 // @Produce     json
-// @Param       offset query    int    false "0"
-// @Param       limit  query    int    false "10"
-// @Param       search query    string false "search"
-// @Success     200    {object} models.JSONResponse{data=[]models.Author}
+// @Param       offset        query    int    false "0"
+// @Param       limit         query    int    false "10"
+// @Param       search        query    string false "search"
+// @Param       Authorization header   string false "Authorization"
+// @Success     200           {object} models.JSONResponse{data=[]models.Author}
 // @Router      /v2/author [get]
 func (h Handler) GetAuthorList(c *gin.Context) {
 	offsetStr := c.DefaultQuery("offset", h.Conf.DefaultOffset)
@@ -127,9 +130,10 @@ func (h Handler) GetAuthorList(c *gin.Context) {
 // @Tags        authors
 // @Accept      json
 // @Produce     json
-// @Param       author body     models.UpdateAuthorModel true "author body"
-// @Success     200    {object} models.JSONResponse{data=models.Author}
-// @Response    400    {object} models.JSONErrorResponse
+// @Param       author        body     models.UpdateAuthorModel true  "author body"
+// @Param       Authorization header   string                   false "Authorization"
+// @Success     200           {object} models.JSONResponse{data=models.Author}
+// @Response    400           {object} models.JSONErrorResponse
 // @Router      /v2/author [put]
 func (h Handler) UpdateAuthor(c *gin.Context) {
 	var body models.UpdateAuthorModel
@@ -157,7 +161,8 @@ func (h Handler) UpdateAuthor(c *gin.Context) {
 // @Description delete an author by id
 // @Tags        authors
 // @Accept      json
-// @Param       id path string true "author ID"
+// @Param       id            path   string true  "author ID"
+// @Param       Authorization header string false "Authorization"
 // @Produce     json
 // @Success     200 {object} models.JSONResponse{data=models.Author}
 // @Failure     404 {object} models.JSONErrorResponse

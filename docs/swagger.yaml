@@ -81,6 +81,16 @@ definitions:
       message:
         type: string
     type: object
+  models.LoginModel:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
   models.PackedArticleModel:
     properties:
       author:
@@ -94,6 +104,11 @@ definitions:
       title:
         type: string
       updated_at:
+        type: string
+    type: object
+  models.TokenResponse:
+    properties:
+      token:
         type: string
     type: object
   models.UpdateArticleModel:
@@ -123,6 +138,37 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 paths:
+  /v1/login:
+    post:
+      consumes:
+      - application/json
+      description: Login
+      parameters:
+      - description: Login body
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/models.LoginModel'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.JSONResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.TokenResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.JSONErrorResponse'
+      summary: Login
+      tags:
+      - auth
   /v2/article:
     get:
       consumes:
@@ -140,6 +186,10 @@ paths:
       - description: search
         in: query
         name: search
+        type: string
+      - description: Authorization
+        in: header
+        name: Authorization
         type: string
       produces:
       - application/json
@@ -169,6 +219,10 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/models.CreateArticleModel'
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
       produces:
       - application/json
       responses:
@@ -199,6 +253,10 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/models.UpdateArticleModel'
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
       produces:
       - application/json
       responses:
@@ -231,6 +289,10 @@ paths:
         name: id
         required: true
         type: string
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
       produces:
       - application/json
       responses:
@@ -258,6 +320,10 @@ paths:
         in: path
         name: id
         required: true
+        type: string
+      - description: Authorization
+        in: header
+        name: Authorization
         type: string
       produces:
       - application/json
@@ -296,6 +362,10 @@ paths:
         in: query
         name: search
         type: string
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
       produces:
       - application/json
       responses:
@@ -324,6 +394,10 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/models.CreateAuthorModel'
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
       produces:
       - application/json
       responses:
@@ -354,6 +428,10 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/models.UpdateAuthorModel'
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
       produces:
       - application/json
       responses:
@@ -384,6 +462,10 @@ paths:
         name: id
         required: true
         type: string
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
       produces:
       - application/json
       responses:
@@ -412,6 +494,10 @@ paths:
         in: path
         name: id
         required: true
+        type: string
+      - description: Authorization
+        in: header
+        name: Authorization
         type: string
       produces:
       - application/json

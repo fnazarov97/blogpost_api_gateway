@@ -16,9 +16,10 @@ import (
 // @Tags        articles
 // @Accept      json
 // @Produce     json
-// @Param       article body     models.CreateArticleModel true "article body"
-// @Success     201     {object} models.JSONResponse{data=models.Article}
-// @Failure     400     {object} models.JSONErrorResponse
+// @Param       article       body     models.CreateArticleModel true  "article body"
+// @Param       Authorization header   string                    false "Authorization"
+// @Success     201           {object} models.JSONResponse{data=models.Article}
+// @Failure     400           {object} models.JSONErrorResponse
 // @Router      /v2/article [post]
 func (h Handler) CreateArticle(c *gin.Context) {
 	var body models.CreateArticleModel
@@ -64,7 +65,8 @@ func (h Handler) CreateArticle(c *gin.Context) {
 // @Description get an article by id
 // @Tags        articles
 // @Accept      json
-// @Param       id path string true "Article ID"
+// @Param       id            path   string true  "Article ID"
+// @Param       Authorization header string false "Authorization"
 // @Produce     json
 // @Success     200 {object} models.JSONResponse{data=models.PackedArticleModel}
 // @Failure     400 {object} models.JSONErrorResponse
@@ -96,10 +98,11 @@ func (h Handler) GetArticleByID(c *gin.Context) {
 // @Tags        articles
 // @Accept      json
 // @Produce     json
-// @Param       offset query    int    false "0"
-// @Param       limit  query    int    false "10"
-// @Param       search query    string false "search"
-// @Success     200    {object} models.JSONResponse{data=[]models.Article}
+// @Param       offset        query    int    false "0"
+// @Param       limit         query    int    false "10"
+// @Param       search        query    string false "search"
+// @Param       Authorization header   string false "Authorization"
+// @Success     200           {object} models.JSONResponse{data=[]models.Article}
 // @Router      /v2/article [get]
 func (h Handler) GetArticleList(c *gin.Context) {
 	offsetStr := c.DefaultQuery("offset", h.Conf.DefaultOffset)
@@ -143,9 +146,10 @@ func (h Handler) GetArticleList(c *gin.Context) {
 // @Tags        articles
 // @Accept      json
 // @Produce     json
-// @Param       article body     models.UpdateArticleModel true "article body"
-// @Success     200     {object} models.JSONResponse{data=[]models.Article}
-// @Response    400     {object} models.JSONErrorResponse
+// @Param       article       body     models.UpdateArticleModel true  "article body"
+// @Param       Authorization header   string                    false "Authorization"
+// @Success     200           {object} models.JSONResponse{data=[]models.Article}
+// @Response    400           {object} models.JSONErrorResponse
 // @Router      /v2/article [put]
 func (h Handler) UpdateArticle(c *gin.Context) {
 	var body models.UpdateArticleModel
@@ -176,7 +180,8 @@ func (h Handler) UpdateArticle(c *gin.Context) {
 // @Description delete an article by id
 // @Tags        articles
 // @Accept      json
-// @Param       id path string true "Article ID"
+// @Param       id            path   string true  "Article ID"
+// @Param       Authorization header string false "Authorization"
 // @Produce     json
 // @Success     200 {object} models.JSONResponse{data=models.DeleteArticleModel}
 // @Failure     404 {object} error

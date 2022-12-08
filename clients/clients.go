@@ -4,14 +4,16 @@ import (
 	"blogpost/config"
 	"blogpost/genprotos/article"
 	"blogpost/genprotos/author"
+	"blogpost/genprotos/authorization"
 
 	"google.golang.org/grpc"
 )
 
 type GrpcClients struct {
-	Author  author.AuthorServicesClient
-	Article article.ArticleServicesClient
-	conns   []*grpc.ClientConn
+	Author        author.AuthorServicesClient
+	Article       article.ArticleServicesClient
+	Authorization authorization.AuthServiceClient
+	conns         []*grpc.ClientConn
 }
 
 func NewGrpcClients(cfg config.Config) (*GrpcClients, error) {
@@ -26,11 +28,18 @@ func NewGrpcClients(cfg config.Config) (*GrpcClients, error) {
 		return nil, err
 	}
 	article := article.NewArticleServicesClient(connArticle)
+
+	connAuthorization, err := grpc.Dial(cfg.AuthorizationServiceGrpcHost+cfg.AuthorizationServiceGrpcPort, grpc.WithInsecure())
+	if err != nil {
+		return nil, err
+	}
+	authorization := authorization.NewAuthServiceClient(connAuthorization)
 	conns := make([]*grpc.ClientConn, 0)
 	return &GrpcClients{
-		Author:  author,
-		Article: article,
-		conns:   append(conns, connAuthor, connArticle),
+		Author:        author,
+		Article:       article,
+		Authorization: authorization,
+		conns:         append(conns, connAuthor, connArticle, connAuthorization),
 	}, nil
 }
 
