@@ -3,6 +3,7 @@ package handlers
 import (
 	"blogpost/genprotos/authorization"
 	"blogpost/models"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -57,10 +58,10 @@ func (h Handler) AuthMiddleware(userType string) gin.HandlerFunc {
 func (h Handler) Login(c *gin.Context) {
 	var body models.LoginModel
 	if err := c.ShouldBindJSON(&body); err != nil {
-		c.JSON(http.StatusBadRequest, models.JSONErrorResponse{Error: err.Error()})
+		c.JSON(http.StatusBadRequest, models.JSONErrorResponse{Error: "err.Error()1"})
 		return
 	}
-
+	log.Println("-------------------------->", body.Password, body.Username)
 	// TODO - validation should be here
 	tokenResponse, err := h.grpcClients.Authorization.Login(c.Request.Context(), &authorization.LoginRequest{
 		Username: body.Username,
@@ -68,7 +69,7 @@ func (h Handler) Login(c *gin.Context) {
 	})
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.JSONErrorResponse{
-			Error: err.Error(),
+			Error: "err.Error()2",
 		})
 		return
 	}

@@ -41,7 +41,7 @@ func main() {
 
 	h := handlers.NewHandler(conf, grpcClients)
 
-	v1 := router.Group("/v2")
+	v1 := router.Group("/v1")
 	{
 		v1.Use(MyCORSMiddleware())
 		v1.POST("/login", h.Login)

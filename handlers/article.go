@@ -20,7 +20,7 @@ import (
 // @Param       Authorization header   string                    false "Authorization"
 // @Success     201           {object} models.JSONResponse{data=models.Article}
 // @Failure     400           {object} models.JSONErrorResponse
-// @Router      /v2/article [post]
+// @Router      /v1/article [post]
 func (h Handler) CreateArticle(c *gin.Context) {
 	var body models.CreateArticleModel
 	if err := c.ShouldBindJSON(&body); err != nil {
@@ -70,7 +70,7 @@ func (h Handler) CreateArticle(c *gin.Context) {
 // @Produce     json
 // @Success     200 {object} models.JSONResponse{data=models.PackedArticleModel}
 // @Failure     400 {object} models.JSONErrorResponse
-// @Router      /v2/article/{id} [get]
+// @Router      /v1/article/{id} [get]
 func (h Handler) GetArticleByID(c *gin.Context) {
 	idStr := c.Param("id")
 
@@ -103,7 +103,7 @@ func (h Handler) GetArticleByID(c *gin.Context) {
 // @Param       search        query    string false "search"
 // @Param       Authorization header   string false "Authorization"
 // @Success     200           {object} models.JSONResponse{data=[]models.Article}
-// @Router      /v2/article [get]
+// @Router      /v1/article [get]
 func (h Handler) GetArticleList(c *gin.Context) {
 	offsetStr := c.DefaultQuery("offset", h.Conf.DefaultOffset)
 	limitStr := c.DefaultQuery("limit", h.Conf.DefaultLimit)
@@ -150,7 +150,7 @@ func (h Handler) GetArticleList(c *gin.Context) {
 // @Param       Authorization header   string                    false "Authorization"
 // @Success     200           {object} models.JSONResponse{data=[]models.Article}
 // @Response    400           {object} models.JSONErrorResponse
-// @Router      /v2/article [put]
+// @Router      /v1/article [put]
 func (h Handler) UpdateArticle(c *gin.Context) {
 	var body models.UpdateArticleModel
 	if err := c.ShouldBindJSON(&body); err != nil {
@@ -185,7 +185,7 @@ func (h Handler) UpdateArticle(c *gin.Context) {
 // @Produce     json
 // @Success     200 {object} models.JSONResponse{data=models.DeleteArticleModel}
 // @Failure     404 {object} error
-// @Router      /v2/article/{id} [delete]
+// @Router      /v1/article/{id} [delete]
 func (h Handler) DeleteArticle(c *gin.Context) {
 	idStr := c.Param("id")
 	article, err := h.grpcClients.Article.DeleteArticle(c.Request.Context(), &article.DeleteArticleReq{

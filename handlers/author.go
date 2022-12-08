@@ -19,7 +19,7 @@ import (
 // @Param       Authorization header   string                   false "Authorization"
 // @Success     201           {object} models.JSONResponse{data=models.Author}
 // @Failure     400           {object} models.JSONErrorResponse
-// @Router      /v2/author [post]
+// @Router      /v1/author [post]
 func (h Handler) CreateAuthor(c *gin.Context) {
 	var body models.CreateAuthorModel
 	if err := c.ShouldBindJSON(&body); err != nil {
@@ -55,7 +55,7 @@ func (h Handler) CreateAuthor(c *gin.Context) {
 // @Produce     json
 // @Success     200 {object} models.JSONResponse{data=models.Author}
 // @Failure     400 {object} models.JSONErrorResponse
-// @Router      /v2/author/{id} [get]
+// @Router      /v1/author/{id} [get]
 func (h Handler) GetAuthorByID(c *gin.Context) {
 	idStr := c.Param("id")
 
@@ -87,7 +87,7 @@ func (h Handler) GetAuthorByID(c *gin.Context) {
 // @Param       search        query    string false "search"
 // @Param       Authorization header   string false "Authorization"
 // @Success     200           {object} models.JSONResponse{data=[]models.Author}
-// @Router      /v2/author [get]
+// @Router      /v1/author [get]
 func (h Handler) GetAuthorList(c *gin.Context) {
 	offsetStr := c.DefaultQuery("offset", h.Conf.DefaultOffset)
 	limitStr := c.DefaultQuery("limit", h.Conf.DefaultLimit)
@@ -134,7 +134,7 @@ func (h Handler) GetAuthorList(c *gin.Context) {
 // @Param       Authorization header   string                   false "Authorization"
 // @Success     200           {object} models.JSONResponse{data=models.Author}
 // @Response    400           {object} models.JSONErrorResponse
-// @Router      /v2/author [put]
+// @Router      /v1/author [put]
 func (h Handler) UpdateAuthor(c *gin.Context) {
 	var body models.UpdateAuthorModel
 	if err := c.ShouldBindJSON(&body); err != nil {
@@ -166,7 +166,7 @@ func (h Handler) UpdateAuthor(c *gin.Context) {
 // @Produce     json
 // @Success     200 {object} models.JSONResponse{data=models.Author}
 // @Failure     404 {object} models.JSONErrorResponse
-// @Router      /v2/author/{id} [delete]
+// @Router      /v1/author/{id} [delete]
 func (h Handler) DeleteAuthor(c *gin.Context) {
 	idStr := c.Param("id")
 	deleted, err := h.grpcClients.Author.DeleteAuthor(c.Request.Context(), &author.Id{
